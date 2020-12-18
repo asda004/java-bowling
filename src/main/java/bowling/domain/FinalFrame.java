@@ -10,6 +10,7 @@ public class FinalFrame extends Frame {
 
     public FinalFrame(Pins downPins) {
         super(Frames.ALL_FRAMES, new Score(downPins));
+        this.bowl(Bowling.stroke(this.remainPins()));
     }
 
     @Override

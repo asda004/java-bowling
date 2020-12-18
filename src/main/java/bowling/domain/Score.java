@@ -79,11 +79,23 @@ public class Score {
         return first + DELIMITER + second;
     }
 
-    private boolean isLastFrameWithBonus(int frameNo) {
-        if (frameNo == Frames.ALL_FRAMES && tenFrameBonus != Symbol.GUTTER.getScore()) {
-            return true;
+    public String getFirstSymbol() {
+        // Strike
+        if (first == Symbol.STRIKE.getScore()) {
+            return Symbol.STRIKE.getSymbol();
         }
-        return false;
+
+        // Gutter
+        if (first == Symbol.GUTTER.getScore()) {
+            return Symbol.GUTTER.getSymbol();
+        }
+
+        // miss
+        return String.valueOf(first);
+    }
+
+    private boolean isLastFrameWithBonus(int frameNo) {
+        return frameNo == Frames.ALL_FRAMES && tenFrameBonus != Symbol.GUTTER.getScore();
     }
 
     private String lastSymbol() {
