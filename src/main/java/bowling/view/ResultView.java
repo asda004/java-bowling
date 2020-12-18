@@ -56,31 +56,48 @@ public class ResultView {
     }
 
     private static void untilThisFrameFirstStroke(int frameNo, Frames frames, User user) {
-        space();
-        space();
-
-        printf((frameNo) + "프레임 투구 : " + frames.get(frameNo - 1).getScore().getFirst(), "");
-        space();
-
+        titleFirst(frameNo, frames);
         header(frames);
+        gridPreviousFrameFirst(frameNo, frames, user);
+        gridThisFrame(frameNo, frames);
+        remainFrames(frameNo - 1);
 
+
+        gridPre(frameNo, frames);
+
+        remainFrames(frameNo - 1);
+    }
+
+    private static void gridPreviousFrameFirst(int frameNo, Frames frames, User user) {
         printf(DELIMITER + FORMAT_SPACE, user.getName());
         for (int previousNo = 1; previousNo < frameNo; previousNo++) {
             printf(FORMAT_SPACE, frames.get(previousNo - 1).getScore().getSymbol(previousNo));
         }
-        printf(FORMAT_SPACE, frames.get(frameNo - 1).getScore().getFirstSymbol());
-        remainFrames(frameNo - 1);
+    }
 
-//        total(frames);
+    private static void gridThisFrame(int frameNo, Frames frames) {
+        printf(FORMAT_SPACE, frames.get(frameNo - 1).getScore().getFirstSymbol());
+    }
+
+    private static void gridPre(int frameNo, Frames frames) {
         space();
         printf(DELIMITER + FORMAT_SPACE, "");
         int sum = 0;
         for (int previousNo = 1; previousNo < frameNo; previousNo++) {
             sum += frames.get(previousNo - 1).getScore().get();
-            printf(FORMAT_SPACE, String.valueOf(sum));
+
+            if (frames.get(previousNo - 1).getScore().getFirst() == Symbol.STRIKE.getScore()) {
+                sum += frames.get(frameNo - 1).getScore().get();
+            }
+
+            if (frames.get(previousNo - 1).getScore().getFirst() != Symbol.STRIKE.getScore()) {
+                printf(FORMAT_SPACE, String.valueOf(sum));
+            }
         }
-        printf(FORMAT_SPACE, String.valueOf(frames.get(frameNo - 1).getScore().getFirst()));
-        remainFrames(frameNo - 1);
+
+        if (frames.get(frameNo - 1).getScore().getFirst() != Symbol.STRIKE.getScore()) {
+            printf(FORMAT_SPACE, String.valueOf(sum + frames.get(frameNo - 1).getScore().getFirst()));
+        }
     }
 
     private static void untilThisFrameSecondStroke(int frameNo, Frames frames, User user) {
@@ -88,10 +105,7 @@ public class ResultView {
             return;
         }
 
-        space();
-        space();
-
-        sumFrameScore(frameNo, frames.get(frameNo - 1));
+        titleSecond(frameNo, frames);
 
         header(frames);
 
@@ -101,7 +115,6 @@ public class ResultView {
         }
         remainFrames(frameNo - 1);
 
-//        total(frames);
         space();
         printf(DELIMITER + FORMAT_SPACE, "");
         int sum = 0;
@@ -112,8 +125,17 @@ public class ResultView {
         remainFrames(frameNo - 1);
     }
 
-    private static void sumFrameScore(int frameNo, Frame frame) {
-        printf(frameNo + "프레임 투구 : " + frame.getScore().get(), "");
+    private static void titleFirst(int frameNo, Frames frames) {
+        space();
+        space();
+        printf(frameNo + "프레임 투구 : " + frames.get(frameNo - 1).getScore().getFirst(), "");
+        space();
+    }
+
+    private static void titleSecond(int frameNo, Frames frames) {
+        space();
+        space();
+        printf(frameNo + "프레임 투구 : " + frames.get(frameNo - 1).getScore().get(), "");
         space();
     }
 
@@ -122,11 +144,7 @@ public class ResultView {
     }
 
     private static void lastFrameFirstStroke(Frames frames, User user) {
-        space();
-        space();
-
-        printf("10프레임 투구 : " + frames.get(LAST_FRAME_NO - 1).getScore().getFirst(), "");
-        space();
+        titleFirst(LAST_FRAME_NO, frames);
 
         header(frames);
 
@@ -136,14 +154,18 @@ public class ResultView {
         }
         printf(FORMAT_SPACE, frames.get(LAST_FRAME_NO - 1).getScore().getFirstSymbol());
 
-        total(frames);
+        space();
+        printf(DELIMITER + FORMAT_SPACE, "");
+        int sum = 0;
+        for (int frameNo = 1; frameNo < LAST_FRAME_NO; frameNo++) {
+            sum += frames.get(frameNo - 1).getScore().get();
+            printf(FORMAT_SPACE, String.valueOf(sum));
+        }
+        printf(FORMAT_SPACE, String.valueOf(sum + frames.get(LAST_FRAME_NO - 1).getScore().get()));
     }
 
     private static void lastFrameSecondStroke(Frames frames, User user) {
-        space();
-        space();
-
-        sumFrameScore(LAST_FRAME_NO, frames.get(LAST_FRAME_NO - 1));
+        titleSecond(LAST_FRAME_NO, frames);
 
         header(frames);
 
@@ -152,7 +174,13 @@ public class ResultView {
             printf(FORMAT_SPACE, frames.get(frameNo - 1).getScore().getSymbol(frameNo));
         }
 
-        total(frames);
+        space();
+        printf(DELIMITER + FORMAT_SPACE, "");
+        int sum = 0;
+        for (int frameNo = 1; frameNo < LAST_FRAME_NO + 1; frameNo++) {
+            sum += frames.get(frameNo - 1).getScore().get();
+            printf(FORMAT_SPACE, String.valueOf(sum));
+        }
     }
 
     private static void remainFrames(int i) {
