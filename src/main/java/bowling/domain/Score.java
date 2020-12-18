@@ -126,4 +126,19 @@ public class Score {
                 ", tenFrameBonus=" + tenFrameBonus +
                 '}';
     }
+
+    public String getFirstSymbol(int j) {
+        // Strike
+        if (first == Symbol.STRIKE.getScore()) {
+            return Symbol.STRIKE.getSymbol();
+        }
+
+        // Gutter
+        if (first == Symbol.GUTTER.getScore()) {
+            return Symbol.GUTTER.getSymbol();
+        }
+
+        // miss
+        return String.valueOf(first);
+    }
 }
