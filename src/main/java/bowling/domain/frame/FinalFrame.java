@@ -54,7 +54,7 @@ public class FinalFrame extends Frame {
 
     @Override
     public void thirdBowl(int userIndex, State state, Pins thirdPins) {
-        Bowl thirdBowl = new ThirdBowl();
+        Bowl thirdBowl = new ThirdBowl(state);
         State thirdState = thirdBowl.stroke(thirdPins);
         LastState lastState = new LastState(state, thirdState);
         lastState.setThirdSymbol();

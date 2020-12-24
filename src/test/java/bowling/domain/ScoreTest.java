@@ -63,17 +63,9 @@ class ScoreTest {
 
     @Test
     void spare() {
-        score = new Score(new Pins(9));
-        score.setSecond(new Pins(1));
-        assertThat(score.isSpare()).isTrue();
     }
 
     @Test
     void first() {
-        score = new Score(new Pins(9));
-        assertThat(score.isFirst()).isTrue();
-
-        score.setSecond(new Pins(1));
-        assertThat(score.isFirst()).isFalse();
     }
 }
